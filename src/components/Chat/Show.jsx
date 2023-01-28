@@ -48,7 +48,7 @@ const Show= (props)=>
    // prevent default (event object method)
     e.preventDefault()
     
-    console.log(getUserToken())
+
 
     try
     { 

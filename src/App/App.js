@@ -4,6 +4,9 @@ import {useState} from 'react'
 import {getUserToken, setUserToken, clearUserToken} from '../utils/authToken'
 import Main from '../pages/Main';
 
+// Connecting Socket.io server to React App
+import socketIO from 'socket.io-client';
+const socket = socketIO.connect('http://localhost:4000');
 
 function App() {
 
@@ -73,6 +76,7 @@ function App() {
       setIsAuthenticated(false)
     }
   }
+
 const signOutHandler = () => 
 {
   localStorage.clear();
@@ -85,8 +89,7 @@ const signOutHandler = () =>
 
 return (
   <div>
-    < Main login={loginUser} user={currentUser}
-signup={registerUser} />
+    < Main login={loginUser} user={currentUser} signup={registerUser} socket={socket} />
     <button onClick={signOutHandler}>signout</button>
   </div>
 );
