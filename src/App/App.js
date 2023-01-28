@@ -2,7 +2,7 @@ import './App.css';
 
 import React from 'react'
 import {useState, useEffect} from 'react'
-import {getUserToken, setUserToken, clearUserToken} from './utils/authToken'
+import {getUserToken, setUserToken, clearUserToken} from '../utils/authToken'
 
 
 function App() {
