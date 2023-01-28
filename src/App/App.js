@@ -1,48 +1,15 @@
 import './App.css';
-
 import React from 'react'
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import {getUserToken, setUserToken, clearUserToken} from '../utils/authToken'
+import Main from '../pages/Main';
 
-import LoginForm from '../components/AuthForms/LoginForm';
-import RegisterForm from '../components/AuthForms/RegisterForm';
 
 function App() {
 
-// import start for the current user object and for isAuthenticated.
-const [currentUser, setCurrentUser] = useState({})
-const [isAuthenticated, setIsAuthenticated] = useState(false)
-
-// State for current Profile and follow.
-const [currentProfile, setCurrentProfile] = useState({})
-const [currentFollow, setCurrentFollow] = useState({})
-
-
-// const registerProfile = async(data) =>{
-//   try {
-//     const configs = {
-//       method: "POST",
-//       body: JSON.stringify(data),
-//       headers: {
-//         'Authorization': `bearer ${getUserToken()}`,
-//         "Content-Type": "application/json",
-//       },
-//     }
-//     const newProfile = await fetch(
-//       "http://localhost:4000/profile/",
-//       configs
-//     )
-
-//     const createdProfile = await newProfile.json()
-//     // put the returned user object in state for CurrentUser
-//     setCurrentProfile(createdProfile)
-//     return createdProfile
-//   } catch (err) {
-//     console.log(err)
-//   }
-// }
-
-
+  // import start for the current user object and for isAuthenticated
+  const [currentUser, setCurrentUser] = useState({})
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   // fetch new user JSON from register POST and return it as parsedUser
   const registerUser = async (data) => {
@@ -77,6 +44,7 @@ const [currentFollow, setCurrentFollow] = useState({})
     }
   }
 
+
   // fetch user JSON from login POST and return it as user
   const loginUser = async (data) => {
     try {
@@ -105,8 +73,6 @@ const [currentFollow, setCurrentFollow] = useState({})
       setIsAuthenticated(false)
     }
   }
-
-
 const signOutHandler = () => 
 {
   localStorage.clear();
@@ -119,8 +85,8 @@ const signOutHandler = () =>
 
 return (
   <div>
-    <LoginForm login={loginUser} user={currentUser}/>
-    <RegisterForm signup={registerUser}/>
+    < Main login={loginUser} user={currentUser}
+signup={registerUser} />
     <button onClick={signOutHandler}>signout</button>
   </div>
 );
