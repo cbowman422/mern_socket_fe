@@ -80,10 +80,9 @@ function App() {
 const signOutHandler = () => 
 {
   localStorage.clear();
-  // if(isAuthenticated){
-  //   setIsAuthenticated(current => !current)
-  //   setCurrentUser({})
-  // }
+  localStorage.removeItem('Token');
+  
+  // window.location.reload()
 }
 
 

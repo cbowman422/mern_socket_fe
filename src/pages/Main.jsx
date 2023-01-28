@@ -6,11 +6,11 @@ import Chat from '../components/Chat/Chat'
 import Show from '../components/Chat/Show'
 
 // passing signup, login, and user through app
-const Main = ({signup, login, user}) => {
+const Main = ({signup, login, user, socket}) => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Chat/>}/>
+        <Route path="/" element={<Chat socket={socket} />}/>
         <Route path="/chat/:id" element={<Show/>}/>
         <Route path="/register/" element={<RegisterForm signup={signup}/>}/>
         <Route path="/login/" element={<LoginForm login={login}/>}/>

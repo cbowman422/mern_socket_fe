@@ -4,14 +4,16 @@ import { Link } from "react-router-dom";
 
 import { getUserToken } from '../../utils/authToken';
 
-const Chat= (props)=> 
+const Chat= ({socket})=> 
 {
   // defining state for Chat and for a new chat form input
   const [chat, setChat] = useState([]);
   const [newForm, setNewForm] = useState({
     textChat: "",
-    // title: "",
   });
+
+
+  const [socketState, setSocketState] = useState('')
 
   // API BASE URL to mongodb backend 
   const BASE_URL= "http://localhost:4000/chat";
@@ -36,6 +38,8 @@ const Chat= (props)=>
     setNewForm({ ...newForm, [e.target.name]: e.target.value });
   };
 
+
+
   // event handler to POST a chat with newForm State input
   const handleSubmit= async(e)=>
   {
@@ -44,6 +48,23 @@ const Chat= (props)=>
 
   // setting currentState variable as newForm state input after submit
     const currentState = {...newForm}
+
+
+    // TODO this is for sockets -------------------------
+  
+    // console.log(currentState)
+    // console.log(socket)
+
+    currentState ? socket.emit('message', {
+      text: currentState.textChat,
+      // TODO add username to sockets here
+      id: `${socket.id}${Math.random()}`,
+      socketID: socket.id,
+    }) : console.log("passing socket isnt working");
+
+
+
+
 
   // 1. check any fields for property data types / truthy value (function call - stretch)
     try{
@@ -75,6 +96,74 @@ const Chat= (props)=>
     }
   }
 
+// TODO old loaded function with out socket
+  // // Loaded chat function
+  // const loaded = () =>
+  // {
+
+  //   // JSX for creating a new Chat when Chat is loaded
+  //   return (
+  //     <>
+  //     <section>
+  //       <h2>Create a new Chat</h2>
+  //       <form onSubmit={handleSubmit}>
+  //         <label>
+  //           chat!
+  //           <input 
+  //             type='text' 
+  //             name='textChat' 
+  //             placeholder="text"
+  //             value={newForm.textChat}
+  //             onChange={handleChange}
+  //           />
+  //         </label>
+  //         <input type="submit" value="Create Chat" />
+  //       </form>
+  //     </section>
+  //     <section className='chat-list'>
+  //       {chat?.map((chat) =>
+  //         {
+  //           return(
+  //             <div key={chat._id} className='chat-card'>
+  //               <Link to={`/chat/${chat._id}`}>
+
+  //               <h3>{chat.textChat}</h3>
+
+  //               </Link>
+                
+  //              </div>
+  //           );
+  //         })
+  //       }
+  //     </section>
+  //     </>
+  //   )
+  // };
+
+  // / JSX for creating a new chat when chat is loading
+  const loading = () => (
+    <section className="loading">
+        <section>
+        <h2>...Loading, Create a new Chat</h2>
+        <form onSubmit={handleSubmit}>
+          <label>
+            chat!
+            <input 
+              type='text' 
+              name='textChat' 
+              placeholder="text"
+              value={newForm.textChat}
+              onChange={handleChange}
+            />
+          </label>
+          <input type="submit" value="Create Chat" />
+        </form>
+      </section>
+    </section>
+  );
+
+
+  const [messages, setMessages] = useState([]);
 
   // Loaded chat function
   const loaded = () =>
@@ -100,13 +189,13 @@ const Chat= (props)=>
         </form>
       </section>
       <section className='chat-list'>
-        {chat?.map((chat) =>
+        {messages?.map((messages) =>
           {
             return(
-              <div key={chat._id} className='chat-card'>
-                <Link to={`/chat/${chat._id}`}>
+              <div key={messages.id} className='chat-card'>
+                <Link to={`/chat/${messages._id}`}>
 
-                <h3>{chat.textChat}</h3>
+                <h3>{messages.text}</h3>
 
                 </Link>
                 
@@ -118,24 +207,15 @@ const Chat= (props)=>
       </>
     )
   };
+  // // useEffect to call getChat function on page load
+  // useEffect(()=>{getChat()}, [])
 
-  // / JSX for creating a new chat when chat is loading
-  const loading = () => (
-    <section className="loading">
-      <h1>
-        Loading...
-        <span>
-          <img
-            className="spinner"
-            src="https://freesvg.org/img/1544764567.png"
-          />{" "}
-        </span>
-      </h1>
-    </section>
-  );
 
-  // useEffect to call getChat function on page load
-  useEffect(()=>{getChat()}, [])
+  useEffect(() => {
+    socket.on('messageResponse', (data) => setMessages([...messages, data]));
+  }, [socket, messages]);
+
+
 
   // conditional return to return loading and loaded JSX depending on 
   return (
