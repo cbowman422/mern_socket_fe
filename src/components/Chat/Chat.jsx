@@ -193,7 +193,8 @@ const Chat= ({socket})=>
           {
             return(
               <div key={messages.id} className='chat-card'>
-                <Link to={`/chat/${messages._id}`}>
+                {/* <Link to={`/chat/${messages._id}`}> */}
+                <Link to={`/`}>
 
                 <h3>{messages.text}</h3>
 
