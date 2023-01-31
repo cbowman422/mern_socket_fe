@@ -166,7 +166,7 @@ const Chat= ({socket, user})=>
       <>
 
   {chat?.map((chatMap) =>
-  { if ((chatMap.chatRoomUserTwo === id || chatMap.chatRoomUserTwo ===  user.username) && (chatMap.owner.username === id || chatMap.owner.username === user.username)){
+  { if ((chatMap.chatRoomUserTwo === id || chatMap.chatRoomUserTwo ===  user.username) && (chatMap.owner.username === id || chatMap.owner.username === user.username) && (user.username !== chatMap.chatRoomUserTwo && chatMap.owner.username)){
 
     return(
       <div key={chatMap._id}>
