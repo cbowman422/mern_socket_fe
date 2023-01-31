@@ -35,6 +35,7 @@ function App() {
       )
 
       const createdProfile = await newProfile.json()
+      console.log(newProfile)
       // put the returned user object in state for CurrentUser
       setCurrentProfile(createdProfile)
       return createdProfile
@@ -61,7 +62,7 @@ function App() {
       )
 
       const parsedUser = await newUser.json()
-      console.log(parsedUser)
+  
 
   // sets local storage
       setUserToken(parsedUser.token)

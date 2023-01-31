@@ -9,7 +9,6 @@ const Chat= ({socket, user})=>
 {
 
   const { id } = useParams()
-  console.log(id)
 
   // defining state for Chat and for a new chat form input
   const [chat, setChat] = useState([]);

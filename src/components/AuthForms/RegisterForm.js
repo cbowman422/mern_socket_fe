@@ -10,7 +10,7 @@ const RegisterForm = ({signup, createProfile}) => {
   // defining the state of the input and setting it to initial state username/pw
   const [input, setInput] = useState(initialState)
 
-  console.log(typeof input.username)
+  console.log(input.username)
 
   const [profileForm] = useState({
     usernameProfile: `${input.username}`,
