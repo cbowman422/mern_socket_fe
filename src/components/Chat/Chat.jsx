@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react'
 import { Link } from "react-router-dom";
 
 import { getUserToken } from '../../utils/authToken';
+import UserTwo from '../UserTwo/UserTwo';
 
 const Chat= ({socket})=> 
 {
@@ -145,22 +146,7 @@ const Chat= ({socket})=>
   
   const loading = () => (
     <section className="loading">
-        <section>
-        <h2>...Loading, Create a new Chat</h2>
-        <form onSubmit={handleSubmit}>
-          <label>
-            chat!
-            <input 
-              type='text' 
-              name='textChat' 
-              placeholder="text"
-              value={newForm.textChat}
-              onChange={handleChange}
-            />
-          </label>
-          <input type="submit" value="Create Chat" />
-        </form>
-      </section>
+        <h2>...Searching for messages</h2>
     </section>
   );
 
@@ -170,11 +156,62 @@ const Chat= ({socket})=>
   // Loaded chat function
   const loaded = () =>
   {
-
     // JSX for creating a new Chat when Chat is loaded
     return (
       <>
-      <section>
+
+  {chat?.map((chatMap) =>
+  {
+    return(
+      <div key={chatMap._id}>
+        <Link to={`/chat/${chatMap._id}`}>
+        <p>{chatMap.owner.username}: {chatMap.textChat}</p>
+        </Link>
+      </div>
+    )
+  }
+  )
+  } 
+
+      </>
+    )
+  };
+  
+        // {messages?.map((messagesMap) =>
+        //   {
+        //     return(
+        //       <div key={messagesMap._id} className='chat-card'>
+        //       <Link to={`/chat/${messagesMap._id}`}> 
+            
+      
+        //         <p>{messagesMap.textChat}</p>
+      
+        //         </Link>
+                
+        //        </div>
+        //     );
+        //   })
+        // }
+
+        
+  // // useEffect to call getChat function on page load
+  // useEffect(()=>{getChat()}, [])
+  
+
+
+  useEffect(() => {
+    getChat()
+    socket.on('messageResponse', (data) => setMessages([data]));
+    console.log(messages)
+  }, [socket, messages]);
+
+
+
+  // conditional return to return loading and loaded JSX depending on 
+  return (
+    <div>
+ <section className="loading">
+        <section>
         <h2>Create a new Chat</h2>
         <form onSubmit={handleSubmit}>
           <label>
@@ -190,57 +227,9 @@ const Chat= ({socket})=>
           <input type="submit" value="Create Chat" />
         </form>
       </section>
-      <section className='chat-list'>
-
-      {messages?.map((messagesMap) =>
-        {
-          return(
-            <div key={messagesMap._id} className='chat-card'>
-            <Link to={`/chat/${messagesMap._id}`}> 
-          
-    
-              <p>{messagesMap.textChat}</p>
-    
-              </Link>
-              
-             </div>
-          );
-        })
-      }
-      
-      </section>
-      </>
-    )
-  };
-  // // useEffect to call getChat function on page load
-  // useEffect(()=>{getChat()}, [])
-  
-  // {chat?.map((chatMap) =>
-  // {
-  //   return(
-  //     <div key={chatMap._id}>
-  //       <Link to={`/chat/${chatMap._id}`}>
-  //       <p>{chatMap.owner.username}: {chatMap.textChat}</p>
-  //       </Link>
-  //     </div>
-  //   )
-  // }
-  // )
-  // } 
-
-
-
-  useEffect(() => {
-    // getChat()
-    socket.on('messageResponse', (data) => setMessages([data]));
-    console.log(messages)
-  }, [socket, messages]);
-
-
-
-  // conditional return to return loading and loaded JSX depending on 
-  return (
-    <section className="chat-list">{chat && chat.length ? loaded() : loading()}</section>
+    </section>
+      <section className="chat-list">{chat && chat.length ? loaded() : loading()}</section>
+    </div>
   );
 }
 

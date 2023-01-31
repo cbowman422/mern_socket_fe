@@ -35,7 +35,7 @@ function App() {
   // sets local storage
       setUserToken(parsedUser.token)
   // put the returned user object in state for CurrentUser
-      setCurrentUser(parsedUser.currentUser)
+      setCurrentUser(parsedUser.user)
   // adds a boolean cast of the responses isLoggedIn prop
       setIsAuthenticated(parsedUser.isLoggedIn)
 
@@ -68,8 +68,8 @@ function App() {
   // sets local storage
       setUserToken(user.token)
   // put the returned user object in state for CurrentUser
-      setCurrentUser(user.currentUser)
-
+      setCurrentUser(user.user)
+      console.log(user.user)
       return user
     } catch (err) {
       clearUserToken()

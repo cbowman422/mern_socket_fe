@@ -10,7 +10,7 @@ const Main = ({signup, login, user, socket}) => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Chat socket={socket} />}/>
+        <Route path="/" element={<Chat socket={socket} user={user} />}/>
         <Route path="/chat/:id" element={<Show/>}/>
         <Route path="/register/" element={<RegisterForm signup={signup}/>}/>
         <Route path="/login/" element={<LoginForm login={login}/>}/>
