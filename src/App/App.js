@@ -30,7 +30,7 @@ function App() {
         },
       }
       const newProfile = await fetch(
-        "https://project-3-be.herokuapp.com/profile",
+        "http://localhost:4000/profile/",
         configs
       )
 

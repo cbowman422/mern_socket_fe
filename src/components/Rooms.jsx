@@ -34,7 +34,7 @@ const Rooms = () => {
   {
     return(
       <div key={roomMap._id}>
-        <Link to={`/room/${roomMap._id}`}>
+        <Link to={`/room/${roomMap.usernameProfile}`}>
         <p>{roomMap.usernameProfile}</p>
         </Link>
       </div>

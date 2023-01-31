@@ -10,10 +10,12 @@ const RegisterForm = ({signup, createProfile}) => {
   // defining the state of the input and setting it to initial state username/pw
   const [input, setInput] = useState(initialState)
 
+  console.log(typeof input.username)
+
   const [profileForm] = useState({
     usernameProfile: `${input.username}`,
     bioProfile: "",
-    owner: `${input.username}`
+    owner: `${input.username}`,
   });
 
   // useNavigate returns an imperative method that you can use for changing location.
@@ -31,7 +33,7 @@ const RegisterForm = ({signup, createProfile}) => {
     const createdUserProfile = await createProfile(profileForm)
 
     if (createdUserToken && createdUserProfile) {
-      navigate(`/${input.username}`)
+      navigate(`/`)
     } else {
       navigate("/register/")
     }

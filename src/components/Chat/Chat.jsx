@@ -1,17 +1,23 @@
 import React from 'react'
 import {useState, useEffect} from 'react'
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { getUserToken } from '../../utils/authToken';
-import UserTwo from '../UserTwo/UserTwo';
 
-const Chat= ({socket})=> 
+
+const Chat= ({socket, user})=> 
 {
+
+  const { id } = useParams()
+  console.log(id)
+
   // defining state for Chat and for a new chat form input
   const [chat, setChat] = useState([]);
   const [newForm, setNewForm] = useState({
     textChat: "",
+    chatRoomUserTwo: `${id}`,
   });
+
 
 
   const [socketState, setSocketState] = useState('')
@@ -161,7 +167,8 @@ const Chat= ({socket})=>
       <>
 
   {chat?.map((chatMap) =>
-  {
+  { if ((chatMap.chatRoomUserTwo === id || user.username) && (chatMap.owner.username === id || user.username)){
+
     return(
       <div key={chatMap._id}>
         <Link to={`/chat/${chatMap._id}`}>
@@ -169,6 +176,9 @@ const Chat= ({socket})=>
         </Link>
       </div>
     )
+
+  }
+  
   }
   )
   } 
@@ -179,7 +189,7 @@ const Chat= ({socket})=>
   
 
 
-  
+
         // {messages?.map((messagesMap) =>
         //   {
         //     return(
@@ -205,7 +215,7 @@ const Chat= ({socket})=>
   useEffect(() => {
     getChat()
     socket.on('messageResponse', (data) => setMessages([data]));
-    console.log(messages)
+    //console.log(messages)
   }, [socket, messages]);
 
 
