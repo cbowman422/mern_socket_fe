@@ -94,7 +94,7 @@ const Chat= ({socket, user})=>
         // reset newForm state so that our form empties out
         setNewForm({
             textChat: "",
-            // title: "",
+            chatRoomUserTwo: `${id}`,
         })
 
     }catch(err) {
@@ -166,7 +166,7 @@ const Chat= ({socket, user})=>
       <>
 
   {chat?.map((chatMap) =>
-  { if ((chatMap.chatRoomUserTwo === id || user.username) && (chatMap.owner.username === id || user.username)){
+  { if ((chatMap.chatRoomUserTwo === id || chatMap.chatRoomUserTwo ===  user.username) && (chatMap.owner.username === id || chatMap.owner.username === user.username)){
 
     return(
       <div key={chatMap._id}>
