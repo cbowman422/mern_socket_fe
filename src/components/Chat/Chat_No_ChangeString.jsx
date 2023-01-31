@@ -55,12 +55,12 @@ const Chat= ({socket})=>
     // console.log(currentState)
     // console.log(socket)
 
-    // currentState ? socket.emit('message', {
-    //   text: currentState.textChat,
-    //   // TODO add username to sockets here
-    //   id: `${socket.id}${Math.random()}`,
-    //   socketID: socket.id,
-    // }) : console.log("passing socket isnt working");
+    currentState ? socket.emit('message', {
+      text: currentState.textChat,
+      // TODO add username to sockets here
+      id: `${socket.id}${Math.random()}`,
+      socketID: socket.id,
+    }) : console.log("passing socket isnt working");
 
 
 
@@ -82,7 +82,7 @@ const Chat= ({socket})=>
         // 4. check our response - 
         // 5. parse the data from the response into JS (from JSON) 
         const createdChat = await response.json()
-
+        console.log(createdChat)
         // update local state with response (json from be)
         setChat([...chat, createdChat])
         // reset newForm state so that our form empties out
@@ -141,8 +141,6 @@ const Chat= ({socket})=>
   // };
 
   // / JSX for creating a new chat when chat is loading
-  
-  
   const loading = () => (
     <section className="loading">
         <section>
@@ -165,7 +163,7 @@ const Chat= ({socket})=>
   );
 
 
-  const [messages, setMessages] = useState([{}]);
+  const [messages, setMessages] = useState([]);
 
   // Loaded chat function
   const loaded = () =>
@@ -191,49 +189,31 @@ const Chat= ({socket})=>
         </form>
       </section>
       <section className='chat-list'>
+        {messages?.map((messages) =>
+          {
+            return(
+              <div key={messages.id} className='chat-card'>
+                {/* <Link to={`/chat/${messages._id}`}> */}
+                <Link to={`/`}>
 
-      {messages?.map((messagesMap) =>
-        {
-          return(
-            <div key={messagesMap._id} className='chat-card'>
-            <Link to={`/chat/${messagesMap._id}`}> 
-          
-    
-              <p>{messagesMap.textChat}</p>
-    
-              </Link>
-              
-             </div>
-          );
-        })
-      }
-      
+                <h3>{messages.text}</h3>
+
+                </Link>
+                
+               </div>
+            );
+          })
+        }
       </section>
       </>
     )
   };
   // // useEffect to call getChat function on page load
   // useEffect(()=>{getChat()}, [])
-  
-  // {chat?.map((chatMap) =>
-  // {
-  //   return(
-  //     <div key={chatMap._id}>
-  //       <Link to={`/chat/${chatMap._id}`}>
-  //       <p>{chatMap.owner.username}: {chatMap.textChat}</p>
-  //       </Link>
-  //     </div>
-  //   )
-  // }
-  // )
-  // } 
-
 
 
   useEffect(() => {
-    // getChat()
-    socket.on('messageResponse', (data) => setMessages([data]));
-    console.log(messages)
+    socket.on('messageResponse', (data) => setMessages([...messages, data]));
   }, [socket, messages]);
 
 
