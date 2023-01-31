@@ -177,6 +177,9 @@ const Chat= ({socket})=>
     )
   };
   
+
+
+  
         // {messages?.map((messagesMap) =>
         //   {
         //     return(
@@ -193,7 +196,7 @@ const Chat= ({socket})=>
         //   })
         // }
 
-        
+
   // // useEffect to call getChat function on page load
   // useEffect(()=>{getChat()}, [])
   

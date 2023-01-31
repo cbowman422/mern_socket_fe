@@ -14,6 +14,37 @@ function App() {
   const [currentUser, setCurrentUser] = useState({})
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
+  const [currentProfile, setCurrentProfile] = useState({})
+
+
+
+
+  const registerProfile = async(data) =>{
+    try {
+      const configs = {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          'Authorization': `bearer ${getUserToken()}`,
+          "Content-Type": "application/json",
+        },
+      }
+      const newProfile = await fetch(
+        "https://project-3-be.herokuapp.com/profile",
+        configs
+      )
+
+      const createdProfile = await newProfile.json()
+      // put the returned user object in state for CurrentUser
+      setCurrentProfile(createdProfile)
+      return createdProfile
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+
+
   // fetch new user JSON from register POST and return it as parsedUser
   const registerUser = async (data) => {
     try {
@@ -88,7 +119,7 @@ const signOutHandler = () =>
 
 return (
   <div>
-    < Main login={loginUser} user={currentUser} signup={registerUser} socket={socket} />
+    < Main login={loginUser} user={currentUser} signup={registerUser} socket={socket} createProfile={registerProfile} />
     <button onClick={signOutHandler}>signout</button>
   </div>
 );
